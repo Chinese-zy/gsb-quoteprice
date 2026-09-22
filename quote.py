@@ -1,13 +1,5 @@
-# Server-side twin with same bugs for unittest vectors.
-_shared = {"qty": 1}
+# Server-side entry. Pricing is in pricing.py and rounding in rounding.py.
+# The legacy name is kept so the unittest vectors import path does not change.
+from pricing import compute_line as calc_line, compute_quote
 
-def calc_line(unit, qty, discount, tax_rate):
-    q = 1 if qty in (None, "") else float(qty)
-    base = round(unit * q)
-    price = float(base)
-    for d in discount or []:
-        price = price * (1 - d)
-    price = round(price)
-    tax = round(price * tax_rate)
-    _shared["qty"] = q
-    return {"base": base, "price": price, "tax": tax, "total": price + tax, "qty": q}
+__all__ = ["calc_line", "compute_quote"]
